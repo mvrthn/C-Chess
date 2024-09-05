@@ -1,21 +1,12 @@
-#include <SFML/Graphics.hpp>
+#include <iostream>
 
-int main()
-{
-    auto window = sf::RenderWindow{ { 800u, 600u }, "Chess" };
-    window.setFramerateLimit(144);
+#include "position.hpp"
 
-    while (window.isOpen())
-    {
-        for (auto event = sf::Event{}; window.pollEvent(event);)
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-        }
 
-        window.clear();
-        window.display();
-    }
+int main() {
+    Chess::Position p;
+    std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
+    p.parseFen(fen);
+    std::cout << p;
+    return 0;
 }
