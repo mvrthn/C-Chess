@@ -95,12 +95,16 @@ void Position::parseFen(const std::string& fen) {
     halfMoveCount = mc;
 }
 
+std::string Position::fen() {
+    return "";
+}
+
 Piece Position::pieceOn(int i) const {
     return board[i];
 }
 
-const Piece* Position::getBoard() {
-    return board;
+int Position::pieceIndex(Piece p) {
+    return 6 * ((p & 8) >> 3) + (p & 7) - 1;
 }
 
 void Position::addPiece(Piece p, Square s) {
@@ -120,10 +124,6 @@ void Position::removePiece(Square s) {
     colors[p & 8] ^= mask;
     board[s] = NO_PIECE;
     pieceCount[i]--;
-}
-
-int Position::pieceIndex(Piece p) {
-    return 6 * (p & 8) + (p & 5) - 1;
 }
 
 }

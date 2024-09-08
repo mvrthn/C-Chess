@@ -17,13 +17,12 @@ public:
     std::string fen();
 
     Piece pieceOn(int) const;
-    const Piece* getBoard();
+    static int pieceIndex(Piece);
 
 private:
     void addPiece(Piece, Square);
     void removePiece(Square);
-    int pieceIndex(Piece);
-        
+
     Bitboard pieces[PIECE_NB] = {0};
     Bitboard colors[SQUARE_NB] = {0};
     Piece board[SQUARE_NB] = {NO_PIECE};

@@ -4,8 +4,8 @@
 namespace Chess {
 
 void Board::render(float boardSize) {
-    texture.create(boardSize, boardSize);
-    texture.clear();
+    renderTexture.create(boardSize, boardSize);
+    renderTexture.clear();
 
     float n = boardSize / 8;
 
@@ -17,15 +17,18 @@ void Board::render(float boardSize) {
         for(int j = 0; j < 8; j++) {
             int idx = (i + j) % 2;
             squares[idx].setPosition({i * n, j * n});
-            texture.draw(squares[idx]);
+            renderTexture.draw(squares[idx]);
         }
     }
 
-    texture.display();
+    renderTexture.display();
+
+    texture = sf::Texture(renderTexture.getTexture());
 }
 
-const sf::Texture Board::getTexture() {
-    return texture.getTexture();
+void Board::draw(sf::RenderWindow& window) {
+    window.draw(sf::Sprite(texture));
 }
+
 
 }

@@ -3,22 +3,24 @@
 #include <SFML/Graphics.hpp>
 
 #include "board.hpp"
+#include "pieceSet.hpp"
+#include "engine.hpp"
 
 
 namespace Chess {
 
-#define defaultW 800
-#define defaultH 600
+App::App() {
+    engine.loadFen();
 
-void App::run() {
-    
-    sf::RenderWindow window(sf::VideoMode(defaultW, defaultH), "Chess");
-
-    Board board;
     board.render(defaultH);
     
-    sf::Sprite sprite(board.getTexture());
+    pieceSet.render(defaultH, engine.getPosition());
+}
 
+void App::run() {
+    bool redraw = true;
+    bool rerenderBoard = false;
+    
     while(window.isOpen()) {
 
         sf::Event event;
@@ -30,11 +32,21 @@ void App::run() {
 
         }
 
-        window.clear();
+        if(rerenderBoard) {
+            board.render(window.getSize().y);
+            rerenderBoard = false;
+        }
 
-        window.draw(sprite);
+        if(redraw) {
+            redraw = false;
 
-        window.display();
+            window.clear();
+
+            board.draw(window);
+            pieceSet.draw(window);
+
+            window.display();
+        }
     } 
 }
 
