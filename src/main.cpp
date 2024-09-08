@@ -1,12 +1,13 @@
 #include <iostream>
 
-#include "position.hpp"
+#include "app.hpp"
 
 
 int main() {
-    Chess::Position p;
-    std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
-    p.parseFen(fen);
-    std::cout << p;
+    
+    Chess::App app;
+
+    app.run();
+
     return 0;
 }

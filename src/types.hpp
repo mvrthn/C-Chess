@@ -3,6 +3,8 @@
 
 namespace Chess {
 
+using Bitboard = long int unsigned long;
+
 enum Color {
     WHITE,
     BLACK,
