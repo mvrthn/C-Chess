@@ -19,6 +19,8 @@ public:
 
     const Position& getPosition();
 
+    void startMove(int);
+
 private:
     Position position;
 };

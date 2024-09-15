@@ -25,6 +25,15 @@ private:
     Engine engine;
     Board board;
     PieceSet pieceSet;
+    Move move;
+    int boardSize;
+    int squareSize;
+
+    void mousePressed(sf::Event&, RenderCond&);
+    void mouseReleased(sf::Event&, RenderCond&);
+
+    bool cursorOnBoard(sf::Event&);
+    Square getSquare(int, int);
 };
 
 }

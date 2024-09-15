@@ -50,4 +50,22 @@ constexpr Square operator-(Square s, Direction d) { return Square(int(s) - int(d
 inline Square& operator+=(Square& s, Direction d) { return s = s + d; } 
 inline Square& operator-=(Square& s, Direction d) { return s = s - d; } 
 
+enum RenderCond : int {
+    NO_RENDER = 0,
+    DRAW = 1,
+    RENDER_BOARD = 2,
+    RENDER_PIECE_SET = 4
+};
+
+constexpr RenderCond operator^(RenderCond rc1, RenderCond rc2) { return RenderCond(int(rc1) ^ int(rc2)); }
+
+inline RenderCond& operator^=(RenderCond& rc1, RenderCond rc2) { return rc1 = rc1 ^ rc2; }
+
+struct Move {
+    Square beg;
+    Square end;
+
+    Move(): beg(NONE), end(NONE) {};
+};
+
 }
