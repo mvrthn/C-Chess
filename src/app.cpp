@@ -6,6 +6,7 @@
 #include "pieceSet.hpp"
 #include "engine.hpp"
 #include "types.hpp"
+#include "utilities.hpp"
 
 
 namespace Chess {
@@ -22,7 +23,7 @@ App::App() {
 }
 
 void App::run() {
-    RenderCond render = NO_RENDER;
+    RenderCond render = DRAW;
     
     while(window.isOpen()) {
 
@@ -67,7 +68,8 @@ void App::run() {
 void App::mousePressed(sf::Event& event, RenderCond& render) {
     if(!cursorOnBoard(event)) return;
     if(event.mouseButton.button == sf::Mouse::Button::Left) {
-        
+        Square sq = readSquare(event.mouseButton.x, event.mouseButton.y);
+        printSquare(sq);
     }
     else if(event.mouseButton.button == sf::Mouse::Button::Right) {
 
@@ -77,7 +79,8 @@ void App::mousePressed(sf::Event& event, RenderCond& render) {
 void App::mouseReleased(sf::Event& event, RenderCond& render) {
     if(!cursorOnBoard(event)) return;
     if(event.mouseButton.button == sf::Mouse::Button::Left) {
-        
+        Square sq = readSquare(event.mouseButton.x, event.mouseButton.y);
+        printSquare(sq);
     }
     else if(event.mouseButton.button == sf::Mouse::Button::Right) {
 
@@ -90,8 +93,8 @@ bool App::cursorOnBoard(sf::Event& event) {
     return true;
 }
 
-Square App::getSquare(int x, int y) {
-    return x / boardSize
+Square App::readSquare(int x, int y) {
+    return Square((x / squareSize) + 8 * (y / squareSize));
 }
 
 }

@@ -3,12 +3,18 @@
 
 namespace Chess {
 
-using Bitboard = long int unsigned long;
+using Bitboard = uint64_t;
 
 enum Color {
     WHITE,
     BLACK,
     COLOR_NB = 2
+};
+
+enum PieceType {
+    NO_PIECE_TYPE,
+    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING,
+    PIECE_TYPE_NB = 6
 };
 
 enum Piece {
@@ -61,11 +67,20 @@ constexpr RenderCond operator^(RenderCond rc1, RenderCond rc2) { return RenderCo
 
 inline RenderCond& operator^=(RenderCond& rc1, RenderCond rc2) { return rc1 = rc1 ^ rc2; }
 
-struct Move {
-    Square beg;
-    Square end;
+enum MoveType {
+    STD,
+    ENPASSANT,
+    CASTELING,
+    PROMOTION
+};
 
-    Move(): beg(NONE), end(NONE) {};
+class Move {
+public:
+    Move() = default;
+    explicit Move(int64_t d): data(d) {};
+    inline Move(Square from, Square to) { data = (from << 6) + to; };
+private:
+    uint16_t data;
 };
 
 }

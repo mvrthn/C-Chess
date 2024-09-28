@@ -15,4 +15,8 @@ inline void error(const std::string& funcName, int errNum, unsigned char token =
     exit(-1);
 }
 
+inline void printSquare(Square sq) {
+    std::cout << char('a' + (sq % 8)) << 8 - (sq / 8) << "\n";
+}
+
 }

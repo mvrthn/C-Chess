@@ -12,8 +12,8 @@ namespace Chess {
 
 class App {
 
-#define defaultW 712
-#define defaultH 512
+#define defaultW 840
+#define defaultH 640
 
 public:
     App();
@@ -33,7 +33,7 @@ private:
     void mouseReleased(sf::Event&, RenderCond&);
 
     bool cursorOnBoard(sf::Event&);
-    Square getSquare(int, int);
+    Square readSquare(int, int);
 };
 
 }
