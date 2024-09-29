@@ -29,7 +29,7 @@ void Position::parseFen(const std::string& fen) {
 
     std::istringstream ss(fen);
     unsigned char token;
-    Square sq = A8;
+    Square sq = SQ_A8;
     size_t index;
 
     ss >> std::noskipws;
@@ -39,10 +39,10 @@ void Position::parseFen(const std::string& fen) {
         if(i == 64) error("parseFen", 0);
         if(isdigit(token)) {
             if(token == '9') error("parseFen", 1);
-            sq += RIGHT * (token - '0');
+            sq += EAST * (token - '0');
         }
         else if(token == '/') {
-            sq += DOWN * 2;
+            sq += SOUTH * 2;
         }
         else if((index = pieceSymbols.find(token)) != std::string::npos) {
             addPiece(Piece(index), sq);
@@ -69,12 +69,12 @@ void Position::parseFen(const std::string& fen) {
     //en-passant
     ss >> token;
     if(token == '-') {
-        enPassant = NONE;
+        state.enPassant = SQ_NONE;
     }
     else {
         int s = int(token - 'a');
         ss >> token;
-        enPassant = Square(s + 8 * (token - '1'));
+        state.enPassant = Square(s + 8 * (token - '1'));
     }
     ss >> token;
 
@@ -84,7 +84,7 @@ void Position::parseFen(const std::string& fen) {
         mc *= 10;
         mc += int(token - '0'); 
     }
-    moveCount = mc;
+    state.moveCount = mc;
 
     //half move count
     int hmc = 0;
@@ -92,10 +92,10 @@ void Position::parseFen(const std::string& fen) {
         hmc *= 10;
         hmc += int(token - '0'); 
     }
-    halfMoveCount = mc;
+    state.halfMoveCount = mc;
 }
 
-std::string Position::fen() {
+std::string Position::fen() const {
     return "";
 }
 

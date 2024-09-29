@@ -1,6 +1,9 @@
 #include "engine.hpp"
 
 
+#include "bitboard.hpp"
+
+
 namespace Chess {
 
 void Engine::loadFen(std::string fen) {

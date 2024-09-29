@@ -2,6 +2,7 @@
 
 
 #include "position.hpp"
+#include "bitboard.hpp"
 #include "types.hpp"
 
 
@@ -18,11 +19,10 @@ public:
     std::string generateFen();
 
     const Position& getPosition();
-
-    void startMove(int);
-
+    
 private:
     Position position;
+    BBTable bbtable;
 };
 
 }
