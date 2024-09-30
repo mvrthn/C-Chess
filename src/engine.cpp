@@ -6,6 +6,10 @@
 
 namespace Chess {
 
+Engine::Engine() {
+    BBTable::init();
+}
+
 void Engine::loadFen(std::string fen) {
     position.parseFen(fen);
 }

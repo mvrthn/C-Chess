@@ -13,7 +13,7 @@ constexpr auto startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 
 class Engine {
 
 public:
-    Engine() = default;
+    Engine();
 
     void loadFen(std::string fen = startFen);
     std::string generateFen();
@@ -22,7 +22,6 @@ public:
     
 private:
     Position position;
-    BBTable bbtable;
 };
 
 }
