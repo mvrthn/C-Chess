@@ -15,7 +15,6 @@ enum Color {
 };
 
 enum PieceType {
-    NO_PIECE_TYPE,
     PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING,
     PIECE_TYPE_NB = 6
 };
@@ -115,12 +114,14 @@ enum MoveType {
     PROMOTION
 };
 
-class Move {
-public:
+struct Move {
     Move() = default;
     explicit Move(int64_t d): data(d) {};
     inline Move(Square from, Square to) { data = (from << 6) + to; };
-private:
+
+    inline Square from() { return Square(data >> 6); };
+    inline Square to() { return Square(data & 0b111111); };
+
     uint16_t data;
 };
 

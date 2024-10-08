@@ -2,6 +2,8 @@
 
 
 #include "bitboard.hpp"
+#include "moveGen.hpp"
+#include "utilities.hpp"
 
 
 namespace Chess {
@@ -20,6 +22,14 @@ std::string Engine::generateFen() {
 
 const Position& Engine::getPosition() {
     return position;
+}
+
+void Engine::step() {
+    MoveList moveList(position);
+    
+    for(auto move : moveList) {
+        printMove(move.from(), move.to());
+    }
 }
 
 }

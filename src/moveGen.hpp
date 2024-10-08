@@ -18,6 +18,7 @@ public:
     inline const Move* begin() const { return list; };
     inline const Move* end() const { return last; };
     inline int size() const { return last - list; };
+
 private:
     Move list[MAX_MOVES];
     Move* last;

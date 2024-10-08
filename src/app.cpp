@@ -24,6 +24,7 @@ App::App() {
 
 void App::run() {
     RenderCond render = DRAW;
+    engine.step();
     
     while(window.isOpen()) {
 

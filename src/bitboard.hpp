@@ -3,6 +3,7 @@
 
 #include "types.hpp"
 #include <bit>
+#include <cassert>
 
 
 namespace Chess {
@@ -32,6 +33,8 @@ namespace BBTable {
 
     extern Magic RookMagics[SQUARE_NB];
     extern Magic BishopMagics[SQUARE_NB];
+
+    extern uint8_t BitIndex[SQUARE_NB];
 };
 
 constexpr Bitboard FileA_BB = 0x0101010101010101; 
@@ -67,24 +70,26 @@ constexpr Bitboard shift(Bitboard b) {
                               : 0;
 }
 
-template<Color C>
-constexpr Bitboard getPawnAttacks(Bitboard b) {
-    return C == WHITE ? shift<NORTH_WEST>(b) | shift<NORTH_EAST>(b)
-                      : shift<SOUTH_WEST>(b) | shift<SOUTH_EAST>(b);
-}
-
 constexpr Bitboard squareBB(Square s) { return 1ULL << s; }
 
-constexpr Bitboard rankBB(Square s) { return Rank1_BB << (rankOf(s) * 8); };
+constexpr Bitboard rankBB(Square s) { return Rank1_BB << (rankOf(s) * 8); }
 
-constexpr Bitboard fileBB(Square s) { return FileA_BB << fileOf(s); };
+constexpr Bitboard fileBB(Square s) { return FileA_BB << fileOf(s); }
+
+inline Square popLSB(Bitboard& b) {
+    assert(b);
+    Bitboard lsb = b & -b;
+    b &= ~lsb;
+    return Square(BBTable::BitIndex[(lsb * 0x03f79d71b4cb0a89) >> 58]);
+}
 
 inline int popCount(Bitboard b) { return std::__popcount(b); }
 
-bool validStep(Square s, int step);
+template<Color color>
+inline Bitboard pawnAttacks(Square sq) { return BBTable::PawnAttacks[color][sq]; } 
 
 template<PieceType pt>
-Bitboard attacks(Square sq, Bitboard occ) {
+inline Bitboard getAttacks(Square sq, Bitboard occ) {
     if(pt == KNIGHT) return BBTable::PseudoAttacks[KNIGHT - 1][sq];
     if(pt == BISHOP) return BBTable::BishopMagics[sq].get(occ);
     if(pt == ROOK) return BBTable::RookMagics[sq].get(occ);

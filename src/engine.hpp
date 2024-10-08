@@ -8,17 +8,19 @@
 
 namespace Chess {
 
-constexpr auto startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+constexpr auto StartFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 class Engine {
 
 public:
     Engine();
 
-    void loadFen(std::string fen = startFen);
+    void loadFen(std::string fen = StartFen);
     std::string generateFen();
 
     const Position& getPosition();
+
+    void step();
     
 private:
     Position position;

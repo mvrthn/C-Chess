@@ -108,22 +108,20 @@ int Position::pieceIndex(Piece p) {
 }
 
 void Position::addPiece(Piece p, Square s) {
-    int i = pieceIndex(p);
-    Bitboard mask = 0x1ull << s;
-    pieces[i] |= mask;
-    colors[p & 8] |= mask;
+    Bitboard mask = 1ull << s;
+    pieces[(p & 7) - 1] |= mask;
+    colors[p >> 3] |= mask;
     board[s] = p;
-    pieceCount[i]++;
+    pieceCount[pieceIndex(p)]++;
 }
 
 void Position::removePiece(Square s) {
     Piece p = pieceOn(s);
-    int i = pieceIndex(p);
-    Bitboard mask = 0x1ull << s;
-    pieces[i] ^= mask;
-    colors[p & 8] ^= mask;
+    Bitboard mask = 1ull << s;
+    pieces[(p & 7) - 1] ^= mask;
+    colors[p >> 3] ^= mask;
     board[s] = NO_PIECE;
-    pieceCount[i]--;
+    pieceCount[pieceIndex(p)]--;
 }
 
 }
