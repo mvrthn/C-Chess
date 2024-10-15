@@ -25,7 +25,7 @@ Move* generatePawnMoves(const Position& pos, Move* moveList) {
 template<PieceType pt>
 Move* generateMoves(const Position& pos, Move* moveList, Color color) {
     Bitboard pieces = pos.getPieces(pt, color);
-    Bitboard occupancy = pos.getPieces(Color(color ^ 1));
+    Bitboard occupancy = pos.getPieces();
 
     while(pieces) {
         Square piece = popLSB(pieces);

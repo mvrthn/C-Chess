@@ -14,8 +14,14 @@ struct Magic {
     Bitboard magic;
     int shift;
 
+    inline unsigned int index(Bitboard occ) {
+        unsigned lo = unsigned(occ) & unsigned(mask);
+        unsigned hi = unsigned(occ >> 32) & unsigned(mask >> 32);
+        return (lo * unsigned(magic) ^ hi * unsigned(magic >> 32)) >> (shift - 32);
+    }
+
     inline Bitboard get(Bitboard occ) {
-        return attacks[((occ & mask) * magic) >> shift];
+        return attacks[index(occ)];
     }
 };
 
