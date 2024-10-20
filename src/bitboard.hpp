@@ -89,7 +89,16 @@ inline Square popLSB(Bitboard& b) {
     return Square(BBTable::BitIndex[(lsb * 0x03f79d71b4cb0a89) >> 58]);
 }
 
+inline Square lsb(Bitboard b) {
+    assert(b);
+    return Square(BBTable::BitIndex[((b & -b) * 0x03f79d71b4cb0a89) >> 58]);
+}
+
+inline Bitboard between(Square a, Square b) { return BBTable::SquaresBetween[a][b]; };
+
 inline int popCount(Bitboard b) { return std::__popcount(b); }
+
+inline bool plural(Bitboard b) { return b & (b - 1); }
 
 template<Color color>
 inline Bitboard pawnAttacks(Square sq) { return BBTable::PawnAttacks[color][sq]; } 

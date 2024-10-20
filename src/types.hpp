@@ -108,7 +108,7 @@ constexpr RenderCond operator^(RenderCond rc1, RenderCond rc2) { return RenderCo
 inline RenderCond& operator^=(RenderCond& rc1, RenderCond rc2) { return rc1 = rc1 ^ rc2; }
 
 enum MoveType {
-    STD,
+    STANDARD,
     ENPASSANT,
     CASTELING,
     PROMOTION

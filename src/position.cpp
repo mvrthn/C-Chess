@@ -47,6 +47,8 @@ void Position::parseFen(const std::string& fen) {
         else if((index = pieceSymbols.find(token)) != std::string::npos) {
             addPiece(Piece(index), sq);
             ++sq;
+            if(token == 'K') kingPos[0] = sq;
+            else if(token == 'k') kingPos[1] = sq;
         }
         else error("parseFen", 2, token);
     }

@@ -28,6 +28,7 @@ public:
 
     inline Color getColorOnMove() const { return colorOnMove; };
     inline Bitboard checkers() const { return state.checkers; };
+    inline Square getKingSquare(Color c) const { return kingPos[c]; };
 
     inline Bitboard getPieces(PieceType pt, Color color) const { return pieces[pt] & colors[color]; };
     inline Bitboard getPieces(PieceType pt) const { return pieces[pt]; };
@@ -44,6 +45,7 @@ private:
     int pieceCount[PIECE_NB] = {0};
     Color colorOnMove;
     bool castlingRights[4] = {false};
+    Square kingPos[2] = {SQ_NONE};
     State state;
 };
 

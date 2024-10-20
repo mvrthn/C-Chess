@@ -26,10 +26,11 @@ template<PieceType pt>
 Move* generateMoves(const Position& pos, Move* moveList, Color color) {
     Bitboard pieces = pos.getPieces(pt, color);
     Bitboard occupancy = pos.getPieces();
+    Bitboard notAlly = ~pos.getPieces(color);
 
     while(pieces) {
         Square piece = popLSB(pieces);
-        Bitboard attacks = getAttacks<pt>(piece, occupancy);
+        Bitboard attacks = getAttacks<pt>(piece, occupancy) & notAlly;
 
         while(attacks) {
             Square dest = popLSB(attacks);
@@ -42,13 +43,22 @@ Move* generateMoves(const Position& pos, Move* moveList, Color color) {
 
 Move* generate(const Position& pos, Move* moveList) {
     Color color = pos.getColorOnMove();
+    Bitboard notAlly = ~pos.getPieces(color);
+    const Square king = pos.getKingSquare(color);
+    Bitboard checkers = pos.checkers();
 
-    moveList = color ? generatePawnMoves<BLACK>(pos, moveList) 
-                     : generatePawnMoves<WHITE>(pos, moveList);
-    moveList = generateMoves<KNIGHT>(pos, moveList, color);
-    moveList = generateMoves<BISHOP>(pos, moveList, color);
-    moveList = generateMoves<ROOK>(pos, moveList, color);
-    moveList = generateMoves<QUEEN>(pos, moveList, color);
+    if(!plural(checkers)) {
+        
+        Bitboard target = checkers ? between(king, lsb(checkers)) : notAlly;
+
+        moveList = color ? generatePawnMoves<BLACK>(pos, moveList) 
+                        : generatePawnMoves<WHITE>(pos, moveList);
+        moveList = generateMoves<KNIGHT>(pos, moveList, color);
+        moveList = generateMoves<BISHOP>(pos, moveList, color);
+        moveList = generateMoves<ROOK>(pos, moveList, color);
+        moveList = generateMoves<QUEEN>(pos, moveList, color);
+    }
+
     moveList = generateMoves<KING>(pos, moveList, color);
 
     return moveList;

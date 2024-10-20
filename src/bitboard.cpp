@@ -13,18 +13,18 @@ namespace Chess {
 
 namespace BBTable {
 
-Bitboard PseudoAttacks[PIECE_TYPE_NB - 1][SQUARE_NB];
-Bitboard PawnAttacks[COLOR_NB][SQUARE_NB];
-Bitboard Lines[SQUARE_NB][SQUARE_NB];
-Bitboard SquaresBetween[SQUARE_NB][SQUARE_NB];
+    Bitboard PseudoAttacks[PIECE_TYPE_NB - 1][SQUARE_NB];
+    Bitboard PawnAttacks[COLOR_NB][SQUARE_NB];
+    Bitboard Lines[SQUARE_NB][SQUARE_NB];
+    Bitboard SquaresBetween[SQUARE_NB][SQUARE_NB];
 
-Bitboard RookAttacks[0x19000];
-Bitboard BishopAttacks[0x1480];
+    Bitboard RookAttacks[0x19000];
+    Bitboard BishopAttacks[0x1480];
 
-Magic RookMagics[SQUARE_NB];
-Magic BishopMagics[SQUARE_NB];
+    Magic RookMagics[SQUARE_NB];
+    Magic BishopMagics[SQUARE_NB];
 
-uint8_t BitIndex[SQUARE_NB];
+    uint8_t BitIndex[SQUARE_NB];
 
 }
 
