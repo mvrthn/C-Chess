@@ -9,7 +9,7 @@
 namespace Chess {
 
 struct State {
-    Bitboard checkers;
+    Bitboard checkers = 0ULL;
     Square enPassant;
     int moveCount;
     int halfMoveCount;
@@ -39,10 +39,10 @@ private:
     void addPiece(Piece, Square);
     void removePiece(Square);
 
-    Bitboard pieces[PIECE_TYPE_NB] = {0};
-    Bitboard colors[COLOR_NB] = {0};
+    Bitboard pieces[PIECE_TYPE_NB] = {0ULL};
+    Bitboard colors[COLOR_NB] = {0ULL};
     Piece board[SQUARE_NB] = {NO_PIECE};
-    int pieceCount[PIECE_NB] = {0};
+    int pieceCount[PIECE_NB] = {0ULL};
     Color colorOnMove;
     bool castlingRights[4] = {false};
     Square kingPos[2] = {SQ_NONE};

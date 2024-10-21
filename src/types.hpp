@@ -96,6 +96,8 @@ constexpr File fileOf(Square s) { return File(s & 7); }
 
 constexpr Rank rankOf(Square s) { return Rank(s >> 3); }
 
+constexpr Color operator~(Color c) { return Color(c ^ BLACK); }
+
 enum RenderCond : int {
     NO_RENDER = 0,
     DRAW = 1,
