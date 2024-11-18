@@ -3,6 +3,7 @@
 
 #include "position.hpp"
 #include "bitboard.hpp"
+#include "moveGen.hpp"
 #include "types.hpp"
 
 
@@ -16,14 +17,16 @@ public:
     Engine();
 
     void loadFen(std::string fen = StartFen);
-    std::string generateFen();
+    std::string generateFen() const;
 
-    const Position& getPosition();
+    const Position& getPosition() const;
+    Color colorOnMove() const;
 
-    void step();
+    bool step(Move);
     
 private:
     Position position;
+    MoveList* mlptr;
 };
 
 }

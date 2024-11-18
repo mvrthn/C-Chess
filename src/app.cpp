@@ -14,6 +14,7 @@ namespace Chess {
 App::App() {
     boardSize = defaultH;
     squareSize = boardSize / 8;
+    render = DRAW;
 
     engine.loadFen();
 
@@ -23,9 +24,6 @@ App::App() {
 }
 
 void App::run() {
-    RenderCond render = DRAW;
-    engine.step();
-    
     while(window.isOpen()) {
 
         sf::Event event;
@@ -36,52 +34,75 @@ void App::run() {
             }
 
             else if(event.type == sf::Event::MouseButtonPressed) {
-                mousePressed(event, render);
+                mousePressed(event);
             }
             else if(event.type == sf::Event::MouseButtonReleased) {
-                mouseReleased(event, render);
+                mouseReleased(event);
             }
 
         }
 
-        if(render & RENDER_BOARD) {
-            render ^= RENDER_BOARD;
-            board.render(boardSize);
-        }
-        if(render & RENDER_PIECE_SET) {
-            render ^= RENDER_PIECE_SET;
-            pieceSet.render(boardSize, engine.getPosition());
-        }
+        window.clear();
 
-        if(render & DRAW) {
-            render ^= DRAW;
+        board.draw(window);
+        pieceSet.draw(window);
 
-            window.clear();
+        window.display();
 
-            board.draw(window);
-            pieceSet.draw(window);
+        // if(render & RENDER_BOARD) {
+        //     render ^= RENDER_BOARD;
+        //     board.render(boardSize);
+        // }
+        // if(render & RENDER_PIECE_SET) {
+        //     render ^= RENDER_PIECE_SET;
+        //     pieceSet.render(boardSize, engine.getPosition());
+        // }
 
-            window.display();
-        }
+        // if(render & DRAW) {
+        //     render ^= DRAW;
+
+        //     window.clear();
+
+        //     board.draw(window);
+        //     pieceSet.draw(window);
+
+        //     window.display();
+        // }
     } 
 }
 
-void App::mousePressed(sf::Event& event, RenderCond& render) {
+void App::mousePressed(sf::Event& event) {
     if(!cursorOnBoard(event)) return;
     if(event.mouseButton.button == sf::Mouse::Button::Left) {
         Square sq = readSquare(event.mouseButton.x, event.mouseButton.y);
-        printSquare(sq);
+        if(move.from == SQ_NONE) {
+            move.from = sq;
+        }
+        else {
+            move.to = sq;
+        }
     }
     else if(event.mouseButton.button == sf::Mouse::Button::Right) {
 
     }
 }
 
-void App::mouseReleased(sf::Event& event, RenderCond& render) {
+void App::mouseReleased(sf::Event& event) {
     if(!cursorOnBoard(event)) return;
     if(event.mouseButton.button == sf::Mouse::Button::Left) {
         Square sq = readSquare(event.mouseButton.x, event.mouseButton.y);
-        printSquare(sq);
+        if(move.to == SQ_NONE) {
+            if(move.from != sq) {
+                move.to = sq;
+                callEngine();
+            }
+        }
+        else if(move.to == sq) {
+            callEngine();
+        }
+        else {
+            move.clear();
+        }
     }
     else if(event.mouseButton.button == sf::Mouse::Button::Right) {
 
@@ -95,7 +116,16 @@ bool App::cursorOnBoard(sf::Event& event) {
 }
 
 Square App::readSquare(int x, int y) {
-    return Square((x / squareSize) + 8 * (y / squareSize));
+    return Square((x / squareSize) + 8 * (7 - (y / squareSize)));
+}
+
+void App::callEngine() {
+    Move m(move.from, move.to);
+    move.clear();
+    if(!engine.step(m)) return;
+    pieceSet.render(boardSize, engine.getPosition());
+    // render &= RENDER_PIECE_SET;
+    // render &= DRAW;
 }
 
 }

@@ -109,6 +109,13 @@ int Position::pieceIndex(Piece p) {
     return 6 * ((p & 8) >> 3) + (p & 7) - 1;
 }
 
+void Position::makeMove(const Move& move) {
+    Piece piece = board[move.from()];
+    removePiece(move.from());
+    addPiece(piece, move.to());
+    colorOnMove != colorOnMove; 
+}
+
 void Position::addPiece(Piece p, Square s) {
     Bitboard mask = 1ull << s;
     pieces[(p & 7) - 1] |= mask;

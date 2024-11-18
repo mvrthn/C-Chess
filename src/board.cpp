@@ -22,7 +22,7 @@ void Board::render(float boardSize) {
     }
 
     sf::Font font;
-    font.loadFromFile("../res/font/Poppins-Medium.ttf");
+    font.loadFromFile("../../res/font/Poppins-Medium.ttf");
 
     int size = 16;
     sf::Text text;

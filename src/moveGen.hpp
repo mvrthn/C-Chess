@@ -1,6 +1,8 @@
 #pragma once
 
 
+#include <algorithm>
+
 #include "types.hpp"
 #include "position.hpp"
 
@@ -18,6 +20,8 @@ public:
     inline const Move* begin() const { return list; };
     inline const Move* end() const { return last; };
     inline int size() const { return last - list; };
+
+    bool contains(Move move) const { return std::find(begin(), end(), move) != end(); };
 
 private:
     Move list[MAX_MOVES];

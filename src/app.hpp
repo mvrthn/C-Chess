@@ -21,19 +21,23 @@ public:
     void run();
 
 private:
+    void mousePressed(sf::Event&);
+    void mouseReleased(sf::Event&);
+
+    bool cursorOnBoard(sf::Event&);
+    Square readSquare(int, int);
+
+    void callEngine();
+
+private:
     sf::RenderWindow window = sf::RenderWindow({defaultW, defaultH}, "Chess", sf::Style::Close);
     Engine engine;
     Board board;
     PieceSet pieceSet;
-    Move move;
+    MoveTry move;
+    RenderCond render;
     int boardSize;
     int squareSize;
-
-    void mousePressed(sf::Event&, RenderCond&);
-    void mouseReleased(sf::Event&, RenderCond&);
-
-    bool cursorOnBoard(sf::Event&);
-    Square readSquare(int, int);
 };
 
 }

@@ -106,8 +106,10 @@ enum RenderCond : int {
 };
 
 constexpr RenderCond operator^(RenderCond rc1, RenderCond rc2) { return RenderCond(int(rc1) ^ int(rc2)); }
+constexpr RenderCond operator&(RenderCond rc1, RenderCond rc2) { return RenderCond(int(rc1) & int(rc2)); }
 
 inline RenderCond& operator^=(RenderCond& rc1, RenderCond rc2) { return rc1 = rc1 ^ rc2; }
+inline RenderCond& operator&=(RenderCond& rc1, RenderCond rc2) { return rc1 = rc1 & rc2; }
 
 enum MoveType {
     STANDARD,
@@ -121,10 +123,19 @@ struct Move {
     explicit Move(int64_t d): data(d) {};
     inline Move(Square from, Square to) { data = (from << 6) + to; };
 
-    inline Square from() { return Square(data >> 6); };
-    inline Square to() { return Square(data & 0b111111); };
+    inline Square from() const { return Square(data >> 6); };
+    inline Square to() const { return Square(data & 0b111111); };
 
     uint16_t data;
+};
+
+constexpr bool operator==(const Move& m1, const Move& m2) { return m1.data == m2.data; }
+
+struct MoveTry {
+    Square from = SQ_NONE;
+    Square to = SQ_NONE;
+
+    inline void clear() { from = SQ_NONE; to = SQ_NONE; };
 };
 
 }

@@ -35,6 +35,8 @@ public:
     inline Bitboard getPieces(Color color) const;
     inline Bitboard getPieces() const;
 
+    void makeMove(const Move&);
+
 private:
     void addPiece(Piece, Square);
     void removePiece(Square);

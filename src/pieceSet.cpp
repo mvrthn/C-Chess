@@ -8,7 +8,7 @@ namespace Chess {
 PieceSet::PieceSet() {
     squareSize = -1;
 
-    std::string path = "../res/pieces/";
+    std::string path = "../../res/pieces/";
     std::string color[2] = {"white-", "black-"};
     std::string pieces[6] = {"pawn", "knight", "bishop", "rook", "queen", "king"};
     std::string ext = ".png";
