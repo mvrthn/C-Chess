@@ -66,7 +66,7 @@ Move* generateMoves(const Position& pos, Move* moveList, Color color, Bitboard t
 Move* generate(const Position& pos, Move* moveList) {
     Color color = pos.getColorOnMove();
     Bitboard notAlly = ~pos.getPieces(color);
-    const Square king = pos.getKingSquare(color);
+    const Square king = lsb(pos.getPieces(KING, color));
     Bitboard checkers = pos.checkers();
     Bitboard target;
 
@@ -82,7 +82,10 @@ Move* generate(const Position& pos, Move* moveList) {
         moveList = generateMoves<QUEEN>(pos, moveList, color, target);
     }
 
-    moveList = generateMoves<KING>(pos, moveList, color, notAlly);
+    Bitboard inCheck = 0;
+    while(checkers) 
+        inCheck |= between(king, popLSB(checkers));
+    moveList = generateMoves<KING>(pos, moveList, color, ~inCheck & notAlly);
 
     return moveList;
 }

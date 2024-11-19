@@ -28,7 +28,6 @@ public:
 
     inline Color getColorOnMove() const { return colorOnMove; };
     inline Bitboard checkers() const { return state.checkers; };
-    inline Square getKingSquare(Color c) const { return kingPos[c]; };
 
     inline Bitboard getPieces(PieceType pt, Color color) const { return pieces[pt] & colors[color]; };
     inline Bitboard getPieces(PieceType pt) const { return pieces[pt]; };
@@ -41,13 +40,14 @@ private:
     void addPiece(Piece, Square);
     void removePiece(Square);
 
+    void generateCheckers();
+
     Bitboard pieces[PIECE_TYPE_NB] = {0ULL};
     Bitboard colors[COLOR_NB] = {0ULL};
     Piece board[SQUARE_NB] = {NO_PIECE};
     int pieceCount[PIECE_NB] = {0ULL};
     Color colorOnMove;
     bool castlingRights[4] = {false};
-    Square kingPos[2] = {SQ_NONE};
     State state;
 };
 

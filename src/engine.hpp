@@ -26,7 +26,7 @@ public:
     
 private:
     Position position;
-    MoveList* mlptr;
+    MoveList moveList;
 };
 
 }

@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "utilities.hpp"
+#include "bitboard.hpp"
 
 
 namespace Chess {
@@ -47,8 +48,6 @@ void Position::parseFen(const std::string& fen) {
         else if((index = pieceSymbols.find(token)) != std::string::npos) {
             addPiece(Piece(index), sq);
             ++sq;
-            if(token == 'K') kingPos[0] = sq;
-            else if(token == 'k') kingPos[1] = sq;
         }
         else error("parseFen", 2, token);
     }
@@ -113,7 +112,8 @@ void Position::makeMove(const Move& move) {
     Piece piece = board[move.from()];
     removePiece(move.from());
     addPiece(piece, move.to());
-    colorOnMove != colorOnMove; 
+    colorOnMove = ~colorOnMove; 
+    generateCheckers();
 }
 
 void Position::addPiece(Piece p, Square s) {
@@ -131,6 +131,27 @@ void Position::removePiece(Square s) {
     colors[p >> 3] ^= mask;
     board[s] = NO_PIECE;
     pieceCount[pieceIndex(p)]--;
+}
+
+void Position::generateCheckers() {
+    state.checkers = 0;
+
+    Bitboard kingBB = getPieces(KING, getColorOnMove());
+    Square kingPos = lsb(kingBB);
+    Color enemyCol = ~getColorOnMove();
+    Bitboard occ = getPieces();
+    
+    state.checkers |= getAttacks<KNIGHT>(kingPos, occ) & getPieces(KNIGHT, enemyCol);
+
+    Bitboard enemySlidding = getPieces(BISHOP, enemyCol) | getPieces(ROOK, enemyCol) | getPieces(QUEEN, enemyCol);
+    state.checkers |= getAttacks<QUEEN>(kingPos, occ) & enemySlidding;
+
+    Bitboard pawns;
+    if(enemyCol == WHITE) pawns = shift<SOUTH_WEST>(kingBB) | shift<SOUTH_EAST>(kingBB);
+    else pawns = shift<NORTH_WEST>(kingBB) | shift<NORTH_EAST>(kingBB);
+    state.checkers |= getPieces(PAWN, enemyCol) & pawns;
+
+    state.checkers |= getAttacks<KING>(kingPos, occ) & getPieces(KING, enemyCol);
 }
 
 }

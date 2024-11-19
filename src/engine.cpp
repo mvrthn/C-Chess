@@ -12,6 +12,7 @@ Engine::Engine() {
 
 void Engine::loadFen(std::string fen) {
     position.parseFen(fen);
+    moveList.update(position);
 }
 
 std::string Engine::generateFen() const {
@@ -27,9 +28,9 @@ Color Engine::colorOnMove() const {
 }
 
 bool Engine::step(Move move) {
-    MoveList moveList(position);
     if(!moveList.contains(move)) return false;
     position.makeMove(move);
+    moveList.update(position);
     return true;
 }
 

@@ -78,6 +78,8 @@ enum Direction : int {
 inline Square& operator++(Square& s) { return s = Square(int(s) + 1); }
 inline Square& operator--(Square& s) { return s = Square(int(s) - 1); }
 
+constexpr Direction operator+(Direction d1, Direction d2) { return Direction(int(d1) + int(d2)); }
+
 constexpr Direction operator+(Direction d, int i) { return Direction(i + int(d)); }
 constexpr Direction operator*(Direction d, int i) { return Direction(i * int(d)); }
 

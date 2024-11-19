@@ -15,13 +15,15 @@ Move* generate(const Position&, Move*);
 
 class MoveList {
 public:
-    explicit MoveList(const Position& pos): last(generate(pos, list)) {};
+    explicit MoveList() = default;
 
-    inline const Move* begin() const { return list; };
-    inline const Move* end() const { return last; };
-    inline int size() const { return last - list; };
+    inline void update(const Position& pos) { last = generate(pos, list); }
 
-    bool contains(Move move) const { return std::find(begin(), end(), move) != end(); };
+    inline const Move* begin() const { return list; }
+    inline const Move* end() const { return last; }
+    inline int size() const { return last - list; }
+
+    inline bool contains(Move move) const { return std::find(begin(), end(), move) != end(); }
 
 private:
     Move list[MAX_MOVES];
